@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace EllonMuskWindowsForm
@@ -10,33 +12,52 @@ namespace EllonMuskWindowsForm
             InitializeComponent();
         }
 
-        public GenericTela(string valor)
-        {
-            InitializeComponent();
-
-            recebeValor.Text = valor;
-        }
-
         private void label1_Click(object sender, EventArgs e)
-        {
+        { }
 
-        }
-
+        RelacionamentoAnexoService relacionamentoAnexo;
         private void button1_Click(object sender, EventArgs e)
         {
+            if (relacionamentoAnexo == null)
+            {
+                return;
+            }
+
+            MessageBox.Show(relacionamentoAnexo.SalvarAnexo());
+
             Close();
         }
 
         private void buscarAnexo_Click(object sender, EventArgs e)
         {
-            FormAnexos formAnexos = new FormAnexos(this);
+            if (relacionamentoAnexo == null)
+            {
+                return;
+            }
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
-            formAnexos.Show();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                relacionamentoAnexo.Anexos.Add(Path.GetFileName(dlg.FileName));
+                listBox1.Items.Add(Path.GetFileName(dlg.FileName));
+            }
         }
 
         private void label3_Click(object sender, EventArgs e)
-        {
+        { }
 
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        { }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex <= 0)
+                relacionamentoAnexo = new AnexoVisitaService();
+            else if (comboBox1.SelectedIndex == 1)
+                relacionamentoAnexo = new AnexoSolicitacaoService();
+            else
+                relacionamentoAnexo = new AnexoClienteService();
         }
     }
 }
