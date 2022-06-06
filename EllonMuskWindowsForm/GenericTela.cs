@@ -19,10 +19,14 @@ namespace EllonMuskWindowsForm
         private void button1_Click(object sender, EventArgs e)
         {
             if (relacionamentoAnexo == null)return;
-            
+
+            if (listBox1.Items.Count <= 0)
+            {
+                MessageBox.Show("Adicicione pelo menos 1 Anexo a lista!");
+                return;
+            }
 
             MessageBox.Show(relacionamentoAnexo.SalvarAnexo());
-
             Close();
         }
 
@@ -48,11 +52,11 @@ namespace EllonMuskWindowsForm
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex <= 0)
+            if (comboBox1.SelectedIndex == 0)
                 relacionamentoAnexo = new AnexoVisitaService();
             else if (comboBox1.SelectedIndex == 1)
                 relacionamentoAnexo = new AnexoSolicitacaoService();
-            else
+            else if (comboBox1.SelectedIndex == 2)
                 relacionamentoAnexo = new AnexoClienteService();
         }
 
@@ -64,7 +68,12 @@ namespace EllonMuskWindowsForm
             {
                 relacionamentoAnexo.Anexos.RemoveAt(listBox1.SelectedIndex);
                 listBox1.Items.RemoveAt(listBox1.SelectedIndex);
-            }else MessageBox.Show("selecione um Item antes!");
+            }else MessageBox.Show("Selecione um Item antes!");
+        }
+
+        private void GenericTela_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
