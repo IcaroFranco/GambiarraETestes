@@ -18,10 +18,8 @@ namespace EllonMuskWindowsForm
         RelacionamentoAnexoService relacionamentoAnexo;
         private void button1_Click(object sender, EventArgs e)
         {
-            if (relacionamentoAnexo == null)
-            {
-                return;
-            }
+            if (relacionamentoAnexo == null)return;
+            
 
             MessageBox.Show(relacionamentoAnexo.SalvarAnexo());
 
@@ -30,10 +28,8 @@ namespace EllonMuskWindowsForm
 
         private void buscarAnexo_Click(object sender, EventArgs e)
         {
-            if (relacionamentoAnexo == null)
-            {
-                return;
-            }
+            if (relacionamentoAnexo == null)return;
+            
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -58,6 +54,17 @@ namespace EllonMuskWindowsForm
                 relacionamentoAnexo = new AnexoSolicitacaoService();
             else
                 relacionamentoAnexo = new AnexoClienteService();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (relacionamentoAnexo == null)return;
+
+            if (listBox1.SelectedIndex != -1)
+            {
+                relacionamentoAnexo.Anexos.RemoveAt(listBox1.SelectedIndex);
+                listBox1.Items.RemoveAt(listBox1.SelectedIndex);
+            }else MessageBox.Show("selecione um Item antes!");
         }
     }
 }
